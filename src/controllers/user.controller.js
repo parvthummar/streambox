@@ -45,8 +45,10 @@ const registeruser = asyncHandler(async (req,res)=>{
     if(!avatar_localpath){
         throw new ApiError(400 , "please proper avatar image");
     }
+    // In your controller, try logging the exact path being passed
+    console.log("Exact file path being sent:", avatar_localpath);
 
-    const avatar_response = await uploadOnCloudinary(avatar_localpath);
+    const avatar_response = await uploadOnCloudinary(avatar_localpath); // image uploading on cloudinary
     let coverImage_response = null;
     if(coverImage_localpath){
         coverImage_response = await uploadOnCloudinary(coverImage_localpath);
@@ -55,7 +57,7 @@ const registeruser = asyncHandler(async (req,res)=>{
     if(!avatar_response) throw new ApiError(500,"we are not able to upload avatar");
 
 
-    const user = await User.create({
+    const user = await User.create({  // creating user in database(mongodb)
         fullName,
         avatar : avatar_response.url,
         coverImage : coverImage_response?.url || "",
@@ -69,7 +71,7 @@ const registeruser = asyncHandler(async (req,res)=>{
     );
 
     if(!is_creates){
-        throw new ApiError(500,"user is not creates in database");
+        throw new ApiError(500,"user is not created in database");
     }
 
     return res.status(200).json(
