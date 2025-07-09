@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { registeruser } from "../controllers/user.controller.js";
+import { registeruser , loginUser ,logoutUser } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.js";
+import {varifyJwt} from "../middlewares/auth.js";
 
 const userrouter = Router();
 
@@ -17,5 +18,10 @@ userrouter.route("/register").post(
     ]),
     registeruser
 );
+
+// if using form data use multer
+userrouter.route("/login").post( upload.none() ,loginUser);
+
+userrouter.route("/logout").post(varifyJwt , logoutUser);
 
 export default userrouter;  
