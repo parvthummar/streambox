@@ -150,7 +150,7 @@ const loginUser = asyncHandler(async (req,res)=>{
         access_token,
         refresh_token,
       },
-      "user logedin successfully",
+      "user logedin successfully" ,
     )
   );
 
